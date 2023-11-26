@@ -12,7 +12,7 @@ from std_msgs.msg import (
 )
 
 
-class SensorWriterBase:
+class SensorBase:
     """
     Sensor Writter
     
@@ -25,15 +25,18 @@ class SensorWriterBase:
                  sensor_data_type=String, 
                  anonymous=False,
                  queue_size=10, rate_hz=10):
+        # creating publisher
         self.publisher = rospy.Publisher(sensor_channel, sensor_data_type, 
                                          queue_size=queue_size)
+        # initialising node
         rospy.init_node(sensor_name, anonymous=anonymous)
-        
+        # setting comm hertz.
         self.rate = rospy.Rate(rate_hz)
         
     def write(self):
         """ Override this method"""
         while not rospy.is_shutdown():
+            # Place holder code
            hello_str = "hello world %s" % rospy.get_time()
            rospy.loginfo(hello_str)
            self.pub.publish(hello_str)
@@ -47,15 +50,23 @@ class SensorListenerBase:
     Reads Sensor Data from Sensor Writter
     """
     
-    def __init__(self, listener_name:str,  channel_name:str, anonymous=False):
+    def __init__(self, listener_name:str,  
+                 channel_name:str,  
+                 anonymous=False):
         
+        self.listener_name = listener_name
+        self.sensor_channel = channel_name
+        self.annonymous = anonymous
         
-    def callback(self):
-        pass
-    
+    @staticmethod  
+    def callback(data):
+      rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
+      
     
     def listener(self):
-        pass
+        rospy.init_node(self.listener_name, 
+                        anonymous=self.annonymous)
+        rospy.Subscriber(self.sensor_channel, String, self.callback)
         
         
 
