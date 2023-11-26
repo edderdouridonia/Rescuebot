@@ -1,0 +1,6 @@
+snumpy
+pyserial
+lxml
+pydot
+pyqt5
+pygraphviz

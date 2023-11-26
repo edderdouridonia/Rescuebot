@@ -39,7 +39,6 @@ class SensorWriterBase:
            self.pub.publish(hello_str)
            self.rate.sleep()
         
-        
 
 class SensorListenerBase:
     """

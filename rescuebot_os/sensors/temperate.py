@@ -13,10 +13,7 @@ import numpy as np
 from rescuebot_os.sensors.base import SensorWriterBase  
 
 
-
-
-
-class TemperatureSensorWriter:
+class TemperatureSensor:
     """
     Sensor Writter
     
@@ -35,7 +32,7 @@ class TemperatureSensorWriter:
         
         self.rate = rospy.Rate(rate_hz)
         
-    def write(self):
+    def read_from_sensor(self):
         """ Override this method"""
         while not rospy.is_shutdown():
            # TODO: Replace with code to read from sensor and write to topic
