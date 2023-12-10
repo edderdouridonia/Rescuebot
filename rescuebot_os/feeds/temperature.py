@@ -15,7 +15,7 @@ from rescuebot_os.feeds.base import SensorWriterBase
 
 class TemperatureSensor:
     """
-    Sensor Writter
+    Temperature Sensor Writter
     
     Writes Sensor Data for other down stream tasks to use.
     
