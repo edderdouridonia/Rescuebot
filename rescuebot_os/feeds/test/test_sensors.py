@@ -1,5 +1,5 @@
 import pytest
-from rescuebot_os.feeds.temperate import TemperatureSensor  # Replace 'your_module' with the name of your module
+from rescuebot.rescuebot_os.feeds.temperature import TemperatureSensor  # Replace 'your_module' with the name of your module
 
 
 # Test the initialization of SensorWriterBase

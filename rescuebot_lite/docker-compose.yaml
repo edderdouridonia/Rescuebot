@@ -1,11 +1,19 @@
 version: '3.8'
 
 services:
+
+  rescuebot-nervous-system:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      RABBIT_MQ_SERVER_URI: "amqp://guest:guest@rabbitmq:5672"
+
   rabbitmq:
     image: rabbitmq:3-management
     environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     ports:
       - "5672:5672"    # AMQP protocol port
       - "15672:15672"  # Management UI
@@ -15,9 +23,9 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: robotdb
+      POSTGRES_USER: guest
+      POSTGRES_PASSWORD: guest
     ports:
       - "5432:5432"
     volumes:
