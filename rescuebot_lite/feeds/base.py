@@ -30,6 +30,7 @@ class SensorBaseWritter:
                  sensor_channel:str):
         # creating publisher
         self.sensor_name = sensor_name
+        self.sensor_channel = sensor_channel
         self.exchange = Exchange(SENSORS_CHANNEL, type='direct')
         self.queue = Queue(sensor_channel, self.exchange, routing_key=sensor_channel)
         logging.debug(f"Sensor {sensor_channel} is ready to write to {sensor_channel}!")
@@ -43,7 +44,7 @@ class SensorBaseWritter:
              producer.publish(
                sensor_reading,
                 exchange=self.exchange,
-                routing_key='default',
+                routing_key=self.sensor_channel,
                 serializer='json',
                 compression='zlib'
             )
@@ -67,7 +68,7 @@ class SensorBaseListener:
         return pformat(obj, indent=4)
     
     def handle(self,body, message):
-        print(f'Received message: {body!r}')
+        logging.debug(f'Received message: {body!r}')
         message.ack()
     
     def listen(self):

@@ -1,4 +1,4 @@
-from rescuebot_lite.feeds.base import SensorBaseWritter
+from rescuebot_lite.feeds.base import SensorBaseWritter, SENSORS_CHANNEL
 from datetime import datetime
 
 
@@ -13,7 +13,7 @@ def generate_random_temperate():
 
 if __name__ == '__main__':
     
-    random_temp_sensor = SensorBaseWritter('test_sensor', 'test_channel')
+    random_temp_sensor = SensorBaseWritter(SENSORS_CHANNEL, 'temperature_sensor')
     while True:
         # Get the current date and time
         now = datetime.now()
