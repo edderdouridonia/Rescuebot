@@ -57,9 +57,8 @@ class SensorBaseListener:
     Reads Sensor Data from Sensor Writter
     """
     
-    def __init__(self, sensor_name:str,  
+    def __init__(self,
                  sensor_channel:str):
-        self.sensor_name = sensor_name
         self.exchange = Exchange(SENSORS_CHANNEL, type='direct')
         self.queue = Queue(sensor_channel, self.exchange, routing_key=sensor_channel)
         
