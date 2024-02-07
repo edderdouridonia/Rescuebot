@@ -1,0 +1,7 @@
+absl-py==2.1.0
+amqp==5.2.0
+kombu==5.3.5
+numpy==1.26.3
+setuptools==68.2.2
+vine==5.1.0
+wheel==0.41.2
