@@ -10,12 +10,12 @@ from std_msgs.msg import (
 
 import numpy as np
 
-from rescuebot_os.feeds.base import SensorBase  
+from rescuebot_os_old.feeds.base import SensorWriterBase  
 
 
-class CameraFeed(SensorBase):
+class TemperatureSensor:
     """
-    Sensor Writter
+    Temperature Sensor Writter
     
     Writes Sensor Data for other down stream tasks to use.
     
@@ -23,11 +23,10 @@ class CameraFeed(SensorBase):
     
     def __init__(self, sensor_name:str='temp', 
                  sensor_channel:str='robot_temp', 
-                 sensor_data_type=ColorRGBA, 
+                 sensor_data_type=Float32, 
                  anonymous=True,
-                 queue_size=10, 
-                 rate_hz=10):
-        """ Camerate feed intialisation"""
+                 queue_size=10, rate_hz=10):
+        
         super().__init__(sensor_name=sensor_name, 
                          sensor_channel=sensor_channel,
                         sensor_data_type=sensor_data_type, 
@@ -39,8 +38,8 @@ class CameraFeed(SensorBase):
         """ Override this method"""
         while not rospy.is_shutdown():
            # TODO: Replace with code to read from sensor and write to topic
-           temp_dummy_value = np.random.randn((400,400))
-           rospy.loginfo(f"Image: {temp_dummy_value}")
+           temp_dummy_value = np.random.rand()
+           rospy.loginfo(f"Temperature: {temp_dummy_value}")
            self.pub.publish(temp_dummy_value)
            self.rate.sleep()
            

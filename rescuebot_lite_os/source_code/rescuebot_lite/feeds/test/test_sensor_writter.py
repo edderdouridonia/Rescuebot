@@ -1,4 +1,4 @@
-from rescuebot_lite.feeds.base import SensorBaseWritter, SENSORS_CHANNEL
+from rescuebot.feeds.base import SensorBaseWritter, SENSORS_CHANNEL
 from datetime import datetime
 
 

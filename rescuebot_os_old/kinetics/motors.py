@@ -1,5 +1,5 @@
 
-from rescuebot.rescuebot_os.kinetics.base import ControlSignalsBase
+from rescuebot.rescuebot_os_old.kinetics.base import ControlSignalsBase
 import rospy
 from std_msgs.msg import (
     String,

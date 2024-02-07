@@ -1,4 +1,4 @@
-from rescuebot_lite.feeds.base import SensorBaseListener, SENSORS_CHANNEL
+from rescuebot.feeds.base import SensorBaseListener, SENSORS_CHANNEL
 import numpy as np
 import time
 def generate_random_temperate():
