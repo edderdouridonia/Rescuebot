@@ -37,10 +37,10 @@ class MotorMotionCommand(MotionCommandBase):
     
 class WheelMotionCommand(MotorMotionCommand):
     
-    def __init__(self, sensor_channel:str, motion_controller:MotorController):
-        self.left_motion_controller = MotorController()
-        self.right_motion_controller = MotorController()
-        super.__init__(sensor_channel=sensor_channel, motion_controller=motion_controller)
+    def __init__(self, sensor_channel:str, left_motor_pin:int, right_motor_pin:int):
+        self.left_motion_controller = MotorController(motor_pin=left_motor_pin)
+        self.right_motion_controller = MotorController(motor_pin=right_motor_pin)
+        super.__init__(sensor_channel=sensor_channel, motion_controller=None)
         
     def handle(self,body, message):
         """
@@ -68,6 +68,23 @@ class WheelMotionCommand(MotorMotionCommand):
         message.ack()
         
         
+    class ArmMotionCommand(MotorMotionCommand):
+        
+        def __init__(self, sensor_channel:str, left_motor_pin:int, right_motor_pin:int):
+            #TODO: next time
+            pass
+        
+        def handle(self,body, message):
+            """
+            Override the handle method to process movement commands.
+            """
+            # Logging the received movement command
+            logging.debug(f'Received movement command: {self.pretty(body)}')
+            print(f'Received movement command: {self.pretty(body)}')
+            
+            #TODO: next item
+            
+            pass
         
         
         
