@@ -8,8 +8,6 @@ setup(
     description='Installs rescute bot OS',
     packages=find_packages(),
     install_requires=[
-        # List your project dependencies here.
-        # For example:
         'requests',
         'kombu',
     ],
