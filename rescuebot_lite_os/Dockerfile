@@ -1,4 +1,10 @@
-FROM python:3.12-slim
+ FROM python:3.12
+
+
+RUN apt-get upgrade && apt-get update && apt-get install -y \
+    gcc \
+    libc-dev \
+    python3-dev
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -8,8 +14,10 @@ COPY rescuebot/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # smbus
-RUN apt-get install  \
-    python-smbus 
+RUN apt-get install -y \
+    python3-smbus \
+    i2c-tools \
+    icm20948
 
 COPY . /app
 

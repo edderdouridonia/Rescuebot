@@ -35,12 +35,14 @@ class VideoSensorWriter(SensorBaseWritter):
         # Serialize frame
         _, buffer = cv2.imencode('.jpg', frame)
         serialized_frame = pickle.dumps(buffer)
-        
+        cv2.imwrite('test.jpg', frame)
+
         # Create message
         message = {
             'frame': serialized_frame,
             'timestamp': datetime.now().isoformat()
         }
+
         self.write(message)
         logging.info("Frame published.")
 
@@ -51,3 +53,9 @@ class VideoSensorWriter(SensorBaseWritter):
         self.camera.release()
         cv2.destroyAllWindows()
         logging.info("Camera released.")
+
+
+if __name__ == '__main__':
+	vid = VideoSensorWriter()
+	vid.write_frame()
+	
