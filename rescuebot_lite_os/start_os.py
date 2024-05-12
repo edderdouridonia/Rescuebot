@@ -1,11 +1,11 @@
-from rescuebot.feeds.base import SensorBaseWritter, SensorBaseListener, SENSORS_CHANNEL
-from rescuebot.feeds.environment import EnvironmentSensorWriter
+from rescuebot.feeds.base import SensorReaderBase, SensorReadingListener, SENSORS_CHANNEL
+from rescuebot.feeds.environment import EnvironmentSensorReader
 from rescuebot.feeds.light import LightSensorWriter
-from rescuebot.feeds.gyro import MotionSensorWriter
-from rescuebot.feeds.air import AirQualitySensorWriter
-from rescuebot.feeds.video import VideoSensorWriter
-from rescuebot.feeds.proximity import ProximitySensorWriter
-from rescuebot.feeds.ultrasonic import UltrasonicSensorWriter
+from rescuebot.feeds.gyro import MotionSensorReader
+from rescuebot.rescuebot_lite_os.rescuebot.feeds.gas import AirQualitySensorReader
+from rescuebot.feeds.video import VideoFeedReader
+from rescuebot.feeds.proximity import ProximitySensorReader
+from rescuebot.feeds.ultrasonic import UltrasonicSensorReader
 from multiprocessing import Process
 from datetime import datetime
 import numpy as np
@@ -19,7 +19,7 @@ logging.debug(':::RESCUE BOT::::')
 def init_random_temperature_sensor(sample_rate_seconds=1):
     logging.debug('SensorWritter: initialising temperature sensors...')
     # Create Sensors (re)
-    random_temp_sensor = SensorBaseWritter(sensor_channel=SENSORS_CHANNEL, 
+    random_temp_sensor = SensorReaderBase(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='temperature_sensor')
 
     """ random temperature sensor """
@@ -44,7 +44,7 @@ def init_random_temperature_sensor(sample_rate_seconds=1):
 def init_random_temperature_sensor_reader():
     logging.debug('SensorReader: initialising temperature sensors reader...')
    
-    random_temp_sensor_listener = SensorBaseListener('temperature_sensor')
+    random_temp_sensor_listener = SensorReadingListener('temperature_sensor')
 
     random_temp_sensor_listener.listen()
     
@@ -53,7 +53,7 @@ def init_random_temperature_sensor_reader():
 def init_environment_sensor(sample_rate_seconds=1):
     logging.debug('initialising environment sensors...')
     # Create Sensors (re)
-    env_sensor = EnvironmentSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    env_sensor = EnvironmentSensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='environment_sensor')
 
 
@@ -79,7 +79,7 @@ def init_light_sensor(sample_rate_seconds=1):
 def init_gyro_sensor(sample_rate_seconds=1):
     logging.debug('initialising gyro sensors...')
     # Create Sensors (re)
-    motion_sensor = MotionSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    motion_sensor = MotionSensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='motion_sensor')
 
     logging.debug('reading environment :)')
@@ -91,7 +91,7 @@ def init_gyro_sensor(sample_rate_seconds=1):
 def init_air_sensor(sample_rate_seconds=1):
     logging.debug('initialising air sensors...')
     # Create Sensors (re)
-    air_sensor = AirQualitySensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    air_sensor = AirQualitySensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='air_sensor')
 
     logging.debug('reading environment :)')
@@ -104,7 +104,7 @@ def init_air_sensor(sample_rate_seconds=1):
 def init_video_feed(sample_rate_seconds=1):
     logging.debug('initialising air sensors...')
     # Create Sensors (re)
-    air_sensor = VideoSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    air_sensor = VideoFeedReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='video_feed')
 
     logging.debug('reading environment :)')
@@ -116,7 +116,7 @@ def init_video_feed(sample_rate_seconds=1):
 def init_proximity_sensor(sample_rate_seconds=1):
     logging.debug('initialising proximity sensors...')
     # Create Sensors (re)
-    proximity_sensor = ProximitySensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    proximity_sensor = ProximitySensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='proximity_sensor')
 
     logging.debug('reading environment :)')
@@ -128,7 +128,7 @@ def init_proximity_sensor(sample_rate_seconds=1):
 def init_ultrasonic_sensor(sample_rate_seconds=1):
     logging.debug('initialising ultrasound sensors...')
     # Create Sensors (re)
-    ultrasonic_sensor = UltrasonicSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    ultrasonic_sensor = UltrasonicSensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='ultrasonic_sensor')
 
     logging.debug('reading environment :)')

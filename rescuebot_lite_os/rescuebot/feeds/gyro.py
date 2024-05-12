@@ -13,7 +13,7 @@ from kombu import (
     Producer, 
     Connection
 )
-from rescuebot.feeds.base import SensorBaseWritter
+from rescuebot.feeds.base import SensorReaderBase
 from rescuebot.feeds.sensor_lib.gyro import ICM20948
 
 
@@ -22,7 +22,7 @@ SENSORS_CHANNEL = "sensors"
 RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
 
 
-class MotionSensorWriter(SensorBaseWritter):
+class MotionSensorReader(SensorReaderBase):
     """
     ICM20948
     Specialized writer for the ICM-20948 Motion Sensor.

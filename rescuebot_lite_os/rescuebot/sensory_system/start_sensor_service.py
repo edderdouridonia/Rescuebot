@@ -1,7 +1,7 @@
-from rescuebot.feeds.base import SensorBaseWritter, SENSORS_CHANNEL
-from rescuebot.feeds.environment import EnvironmentSensorWriter
+from rescuebot.feeds.base import SensorReaderBase, SENSORS_CHANNEL
+from rescuebot.feeds.environment import EnvironmentSensorReader
 from rescuebot.feeds.light import LightSensorWriter
-from rescuebot.feeds.gyro import MotionSensorWriter
+from rescuebot.feeds.gyro import MotionSensorReader
 from multiprocessing import Process
 from datetime import datetime
 import numpy as np
@@ -15,7 +15,7 @@ logging.debug(':::RESCUE BOT::::')
 def init_random_temperature_sensor(sample_rate_seconds=1):
     logging.debug('initialising temperature sensors...')
     # Create Sensors (re)
-    random_temp_sensor = SensorBaseWritter(sensor_channel=SENSORS_CHANNEL, 
+    random_temp_sensor = SensorReaderBase(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='random_temperature_sensor')
 
     """ random temperature sensor """
@@ -40,7 +40,7 @@ def init_random_temperature_sensor(sample_rate_seconds=1):
 def init_environment_sensor(sample_rate_seconds=1):
     logging.debug('initialising environment sensors...')
     # Create Sensors (re)
-    env_sensor = EnvironmentSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    env_sensor = EnvironmentSensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='environment_sensor')
 
 
@@ -66,7 +66,7 @@ def init_light_sensor(sample_rate_seconds=1):
 def init_gyro_sensor(sample_rate_seconds=1):
     logging.debug('initialising gyro sensors...')
     # Create Sensors (re)
-    motion_sensor = MotionSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    motion_sensor = MotionSensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='motion_sensor')
 
     logging.debug('reading environment :)')

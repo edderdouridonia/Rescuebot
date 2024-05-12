@@ -8,12 +8,10 @@ from kombu import (
     Producer, 
     Connection
 )
-from rescuebot.feeds.base import SensorBaseWritter
+from rescuebot.feeds.base import SensorReaderBase
 
 
-
-
-class ProximitySensorWriter(SensorBaseWritter):
+class ProximitySensorReader(SensorReaderBase):
     def __init__(self, sensor_name, sensor_channel, pin_number, adc_channel):
         super().__init__(sensor_name, sensor_channel)
         self.din = Pin(pin_number, Pin.IN, Pin.PULL_UP)

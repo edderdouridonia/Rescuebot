@@ -1,3 +1,3 @@
-from rescuebot.feeds.base import SensorBaseListener
+from rescuebot.feeds.base import SensorReadingListener
 
 

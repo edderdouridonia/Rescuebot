@@ -13,15 +13,15 @@ from kombu import (
     Producer, 
     Connection
 )
-from rescuebot.feeds.base import SensorBaseWritter
-from rescuebot.feeds.sensor_lib.BME280 import BME280
+from rescuebot.feeds.base import SensorReaderBase
+from rescuebot.rescuebot_lite_os.rescuebot.feeds.sensor_lib.environment import BME280
 
 SENSORS_CHANNEL = "sensors"
 RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
 TEMP_SENSOR_PIN = 7 
 
 
-class EnvironmentSensorWriter(SensorBaseWritter):
+class EnvironmentSensorReader(SensorReaderBase):
     """
     BME280 
     Specialized writer for an Environment Sensor HAT.

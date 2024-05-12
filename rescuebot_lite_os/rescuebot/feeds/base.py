@@ -18,7 +18,7 @@ SENSORS_CHANNEL = "sensor_data"
 # GET environment variables
 RABBIT_MQ_SERVER_URI = os.environ.get("RABBIT_MQ_SERVER_URI", "amqp://guest:guest@localhost:5672//")
 
-class SensorBaseWritter:
+class SensorReaderBase:
     """
     Sensor Writter (Template class for sensors)
     
@@ -50,7 +50,7 @@ class SensorBaseWritter:
             )
         
 
-class SensorBaseListener:
+class SensorReadingListener:
     """
     Sensor Reader (Listens for sensor readings)
     

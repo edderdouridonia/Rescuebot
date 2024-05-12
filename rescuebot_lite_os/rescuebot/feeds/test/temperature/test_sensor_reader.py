@@ -1,4 +1,4 @@
-from rescuebot.feeds.base import SensorBaseListener, SENSORS_CHANNEL
+from rescuebot.feeds.base import SensorReadingListener, SENSORS_CHANNEL
 import numpy as np
 import time
 def generate_random_temperate():
@@ -7,7 +7,7 @@ def generate_random_temperate():
 
 if __name__ == '__main__':
     
-    random_temp_sensor_listener = SensorBaseListener('temperature_sensor')
+    random_temp_sensor_listener = SensorReadingListener('temperature_sensor')
     
     random_temp_sensor_listener.listen()
         

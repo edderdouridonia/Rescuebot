@@ -10,9 +10,9 @@ import pickle
 SENSORS_CHANNEL = "sensors"
 RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
 
-from rescuebot.feeds.base import SensorBaseWritter
+from rescuebot.feeds.base import SensorReaderBase
 
-class VideoSensorWriter(SensorBaseWritter):
+class VideoFeedReader(SensorReaderBase):
     """
     Class to capture video from a USB camera and publish frames to a message broker.
     """
@@ -56,6 +56,6 @@ class VideoSensorWriter(SensorBaseWritter):
 
 
 if __name__ == '__main__':
-	vid = VideoSensorWriter()
+	vid = VideoFeedReader()
 	vid.write_frame()
 	

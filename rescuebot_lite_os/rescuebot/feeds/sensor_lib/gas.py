@@ -7,6 +7,8 @@ import math
 import struct
 import smbus2
 
+# from rescuebot.feeds.sensor_lib.environment import BME280
+
 SGP40_CMD_FEATURE_SET = [0x20, 0x2F]
 SGP40_CMD_MEASURE_TEST = [0x28, 0x0E]
 SGP40_CMD_SOFT_RESET = [0x00, 0x06]

@@ -7,9 +7,9 @@ import logging
 from datetime import datetime
 from kombu import Exchange, Queue, Producer, Connection
 
-from rescuebot.feeds.base import SensorBaseWritter
+from rescuebot.feeds.base import SensorReaderBase
 
-class UltrasonicSensorWriter(SensorBaseWritter):
+class UltrasonicSensorReader(SensorReaderBase):
     """
     Specialized writer for the HC-SR04 Ultrasonic Sensor.
     """
