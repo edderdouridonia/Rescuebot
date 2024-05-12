@@ -19,10 +19,8 @@ logging.set_verbosity(logging.DEBUG)
 SENSORS_CHANNEL = "motion_data"
 # Environment variable for RabbitMQ URI
 RABBIT_MQ_SERVER_URI = os.environ.get("RABBIT_MQ_SERVER_URI", "amqp://guest:guest@localhost:5672//")
-
-
         
-        
+
 class MotorController:
     def __init__(self, motor_pin):
         """
