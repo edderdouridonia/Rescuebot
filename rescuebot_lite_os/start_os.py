@@ -1,8 +1,10 @@
 from rescuebot.feeds.base import SensorReaderBase, SensorReadingListener, SENSORS_CHANNEL
 from rescuebot.feeds.environment import EnvironmentSensorReader
-from rescuebot.feeds.light import LightSensorWriter
+from rescuebot.feeds.light import (
+    UVSensorReader, LuminositySensorReader
+)
 from rescuebot.feeds.gyro import MotionSensorReader
-from rescuebot.rescuebot_lite_os.rescuebot.feeds.gas import AirQualitySensorReader
+from rescuebot.feeds.gas import AirQualitySensorReader
 from rescuebot.feeds.video import VideoFeedReader
 from rescuebot.feeds.proximity import ProximitySensorReader
 from rescuebot.feeds.ultrasonic import UltrasonicSensorReader
@@ -16,46 +18,12 @@ logging.set_verbosity(logging.DEBUG)
 logging.debug(':::RESCUE BOT::::')
 
 
-def init_random_temperature_sensor(sample_rate_seconds=1):
-    logging.debug('SensorWritter: initialising temperature sensors...')
-    # Create Sensors (re)
-    random_temp_sensor = SensorReaderBase(sensor_channel=SENSORS_CHANNEL, 
-                                           sensor_name='temperature_sensor')
 
-    """ random temperature sensor """
-    # generate random temperatures
-    def generate_random_temperate():
-        return np.random.randint(30, 50)
-
-    logging.debug('reading temperatures :)')
-    while True:
-        # Get the current date and time
-        now = datetime.now()
-
-        # Format the timestamp
-        # Example: 2024-01-21 12:34:56
-        timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-        test_reading = {'temperature': generate_random_temperate(), 
-                        'timestamp': timestamp }
-        random_temp_sensor.write(test_reading)
-        time.sleep(sample_rate_seconds)
-        
-        
-def init_random_temperature_sensor_reader():
-    logging.debug('SensorReader: initialising temperature sensors reader...')
-   
-    random_temp_sensor_listener = SensorReadingListener('temperature_sensor')
-
-    random_temp_sensor_listener.listen()
-    
-    
-
-def init_environment_sensor(sample_rate_seconds=1):
+def init_environment_sensor_reader(sample_rate_seconds=1):
     logging.debug('initialising environment sensors...')
     # Create Sensors (re)
     env_sensor = EnvironmentSensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='environment_sensor')
-
 
     logging.debug('reading environment :)')
     while True:
@@ -63,10 +31,11 @@ def init_environment_sensor(sample_rate_seconds=1):
         env_sensor.write_environment_data()
         time.sleep(sample_rate_seconds)
         
-def init_light_sensor(sample_rate_seconds=1):
-    logging.debug('initialising environment sensors...')
+        
+def init_luminosity_sensor_reader(sample_rate_seconds=1):
+    logging.debug('initialising luminosity sensors...')
     # Create Sensors (re)
-    light_sensor = LightSensorWriter(sensor_channel=SENSORS_CHANNEL, 
+    light_sensor = LuminositySensorReader(sensor_channel=SENSORS_CHANNEL, 
                                            sensor_name='light_sensor')
 
     logging.debug('reading environment :)')
@@ -75,8 +44,33 @@ def init_light_sensor(sample_rate_seconds=1):
         light_sensor.write_lux_data()
         time.sleep(sample_rate_seconds)
         
+
+def init_uv_sensor_reader(sample_rate_seconds=1):
+    logging.debug('initialising uv sensors...')
+    # Create Sensors (re)
+    light_sensor = UVSensorReader(sensor_channel=SENSORS_CHANNEL, 
+                                           sensor_name='uv_sensor')
+
+    logging.debug('UV reading environment :)')
+    while True:
+        # Get the current date and time
+        light_sensor.write_lux_data()
+        time.sleep(sample_rate_seconds)
         
-def init_gyro_sensor(sample_rate_seconds=1):
+
+def init_airquality_sensor_reader(sample_rate_seconds=1):
+    logging.debug('initialising environment sensors...')
+    # Create Sensors (re)
+    light_sensor = AirQualitySensorReader(sensor_channel=SENSORS_CHANNEL, 
+                                           sensor_name='uv_sensor')
+
+    logging.debug('UV reading environment :)')
+    while True:
+        # Get the current date and time
+        light_sensor.write_lux_data()
+        time.sleep(sample_rate_seconds)
+          
+def init_gyro_sensor_reader(sample_rate_seconds=1):
     logging.debug('initialising gyro sensors...')
     # Create Sensors (re)
     motion_sensor = MotionSensorReader(sensor_channel=SENSORS_CHANNEL, 
@@ -88,7 +82,7 @@ def init_gyro_sensor(sample_rate_seconds=1):
         motion_sensor.write_motion_data()
         time.sleep(sample_rate_seconds)
         
-def init_air_sensor(sample_rate_seconds=1):
+def init_air_sensor_reader(sample_rate_seconds=1):
     logging.debug('initialising air sensors...')
     # Create Sensors (re)
     air_sensor = AirQualitySensorReader(sensor_channel=SENSORS_CHANNEL, 
@@ -101,7 +95,7 @@ def init_air_sensor(sample_rate_seconds=1):
         time.sleep(sample_rate_seconds)
         
 
-def init_video_feed(sample_rate_seconds=1):
+def init_video_feed_reader(sample_rate_seconds=1):
     logging.debug('initialising air sensors...')
     # Create Sensors (re)
     air_sensor = VideoFeedReader(sensor_channel=SENSORS_CHANNEL, 
@@ -111,6 +105,7 @@ def init_video_feed(sample_rate_seconds=1):
     while True:
         # Get the current date and time
         air_sensor.write_frame()
+
 
 
 def init_proximity_sensor(sample_rate_seconds=1):
@@ -136,20 +131,35 @@ def init_ultrasonic_sensor(sample_rate_seconds=1):
         # Get the current date and time
         ultrasonic_sensor.write_distance()
     
-        
     
 
 if __name__ == '__main__':
-    logging.debug(':::RESCUE BOT - taking a nap (5 seconds) to await to rabbit mq::::')
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug('::: System startup - Pausing for 5 seconds to connect to RabbitMQ :::')
     time.sleep(5)
-    # initial 
-    temp_sensor_process = Process(target=init_random_temperature_sensor, args=(1,), daemon=False)
-    # ultrasonic_process = Process(target=init_ultrasonic_sensor, args=(1,), daemon=False)
-    temp_sensor_reader_process = Process(target=init_random_temperature_sensor_reader, daemon=False)
-    temp_sensor_process.start()
-    # ultrasonic_process.start()
-    temp_sensor_reader_process.start()
+
+    # Creating and starting processes
+    sensors = {
+        'environment': init_environment_sensor_reader,
+        'luminosity': init_luminosity_sensor_reader,
+        'uv': init_uv_sensor_reader,
+        'airquality': init_airquality_sensor_reader,
+        'gyro': init_gyro_sensor_reader,
+        'air': init_air_sensor_reader,
+        'video': init_video_feed_reader,
+        # 'proximity': init_proximity_sensor_reader,
+        # 'ultrasonic': init_ultrasonic_sensor_reader
+    }
     
-    temp_sensor_process.join()
-    temp_sensor_reader_process.join()
-    logging.debug('Shutting down x_x')
+    processes = []
+    for sensor_name, init_func in sensors.items():
+        process = Process(target=init_func, args=(1,))
+        processes.append(process)
+        process.start()
+        logging.debug(f'{sensor_name} sensor process started.')
+
+    # Wait for all processes to complete (they won't unless terminated)
+    for process in processes:
+        process.join()
+
+    logging.debug('All sensor processes have been terminated.')
