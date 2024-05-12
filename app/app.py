@@ -2,6 +2,10 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from kombu import Connection, Exchange, Queue, Consumer
+import json
+from datetime import datetime
+
 
 # Streamlit app title and sidebar for controls
 st.title("Robot Control and Monitoring Interface")
@@ -9,6 +13,39 @@ st.sidebar.title("Robot Controls")
 
 # Sidebar for movement controls arranged in a diamond pattern
 st.sidebar.header("Movement Controls")
+
+# RabbitMQ Setup
+RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
+EXCHANGE_NAME = "sensors"
+QUEUE_NAME = "sensor_data"
+
+# Define the cache function to fetch data
+@st.cache(ttl=10, allow_output_mutation=True)
+def fetch_sensor_data():
+    data = []
+    def process_message(body, message):
+        message_data = json.loads(body)
+        data.append(message_data)
+        message.ack()
+
+    exchange = Exchange(EXCHANGE_NAME, type='direct')
+    queue = Queue(name=QUEUE_NAME, exchange=exchange, routing_key='sensor_data')
+    with Connection(RABBIT_MQ_SERVER_URI) as conn:
+        with Consumer(conn, queues=queue, callbacks=[process_message], accept=['json']):
+            try:
+                conn.drain_events(timeout=1)  # Timeout to limit waiting time
+            except Exception as e:
+                print("Connection error:", e)
+    return pd.DataFrame(data)
+
+# Displaying sensor data
+def display_sensor_data():
+    df_sensors = fetch_sensor_data()
+    if not df_sensors.empty:
+        st.write("Data Preview:")
+        st.write(df_sensors)
+    else:
+        st.write("No new data available.")
 
 # Top row for the forward button, shifted right
 top_col1, top_col2, top_col3 = st.sidebar.columns([1, 1, 1])
