@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from kombu import Connection, Exchange, Queue, Consumer
+from kombu import Connection, Exchange, Queue, Consumer, Producer
 import json
 from datetime import datetime
 
@@ -15,13 +15,14 @@ st.sidebar.title("Robot Controls")
 st.sidebar.header("Movement Controls")
 
 # RabbitMQ Setup
-RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
-EXCHANGE_NAME = "sensors"
-QUEUE_NAME = "sensor_data"
+
 
 # Define the cache function to fetch data
 @st.cache(ttl=10, allow_output_mutation=True)
 def fetch_sensor_data():
+    RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
+    EXCHANGE_NAME = "sensors"
+    QUEUE_NAME = "sensor_data"
     data = []
     def process_message(body, message):
         message_data = json.loads(body)
@@ -38,6 +39,34 @@ def fetch_sensor_data():
                 print("Connection error:", e)
     return pd.DataFrame(data)
 
+
+
+
+def send_movement_command(command):
+    """
+    Send a movement command to RabbitMQ.
+    """
+    # RabbitMQ Producer Setup
+    RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
+    EXCHANGE_NAME = "robot_commands"
+    EXCHANGE_TYPE = "direct"
+    ROUTING_KEY = "command"
+
+    # Setup exchange and producer globally
+    exchange = Exchange(EXCHANGE_NAME, type=EXCHANGE_TYPE)
+    producer_connection = Connection(RABBIT_MQ_SERVER_URI)
+    producer = Producer(producer_connection, exchange=exchange, routing_key=ROUTING_KEY)
+
+    with producer_connection:
+        producer.publish(
+            {"command": command},
+            declare=[exchange],
+            retry=True,
+            serializer='json'
+        )
+    print(f"Sent command: {command}")
+    
+    
 # Displaying sensor data
 def display_sensor_data():
     df_sensors = fetch_sensor_data()
@@ -50,31 +79,27 @@ def display_sensor_data():
 # Top row for the forward button, shifted right
 top_col1, top_col2, top_col3 = st.sidebar.columns([1, 1, 1])
 with top_col2:
-    if st.button("  ↑  ", key="forward"):  # Up arrow for forward
-        pass 
-        # st.sidebar.write("Moving forward")
+    if st.sidebar.button("  ↑  ", key="forward"):  # Up arrow for forward
+        send_movement_command("forward")
 
 # Middle row for left, stop, and right buttons
 mid_col1, mid_col2, mid_col3 = st.sidebar.columns(3)
 with mid_col1:
-    if st.button(" ← ", key="left"):  # Left arrow for turn left
-        pass
-        # st.sidebar.write("Turning left")
+    if st.sidebar.button(" ← ", key="left"):  # Left arrow for turn left
+        send_movement_command("left")
 with mid_col2:
-    if st.button("■", key="stop"):  # Stop button
-        pass
-        # st.sidebar.write("Emergency Stop")
+    if st.sidebar.button("■", key="stop"):  # Stop button
+        send_movement_command("stop")  # You need to implement stop behavior in your robot control system
 with mid_col3:
-    if st.button(" → ", key="right"):  # Right arrow for turn right
-        pass
-        # st.sidebar.write("Turning right")
+    if st.sidebar.button(" → ", key="right"):  # Right arrow for turn right
+        send_movement_command("right")
 
 # Bottom row for the backward button, shifted right
 bottom_col1, bottom_col2, bottom_col3 = st.sidebar.columns([1, 1, 1])
 with bottom_col2:
-    if st.button("  ↓  ", key="backward"):  # Down arrow for backward
-        pass
-        # st.sidebar.write("Moving backward")
+    if st.sidebar.button("  ↓  ", key="backward"):  # Down arrow for backward
+        send_movement_command("backward")
+
 
 
 # Generating mock data for sensors
