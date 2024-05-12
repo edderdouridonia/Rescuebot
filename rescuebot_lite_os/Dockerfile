@@ -4,7 +4,10 @@
 RUN apt-get upgrade && apt-get update && apt-get install -y \
     gcc \
     libc-dev \
-    python3-dev
+    python3-dev \
+    i2c-tools \
+    libi2c-dev \
+    python3-smbus
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -12,12 +15,9 @@ WORKDIR /app
 # Copy only the requirements file, to cache the installed packages
 COPY rescuebot/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install smbus2
 
-# smbus
-RUN apt-get install -y \
-    python3-smbus \
-    i2c-tools \
-    icm20948
+
 
 COPY . /app
 

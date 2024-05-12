@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
-import board
-import busio
+
 
 from kombu import Exchange, Queue, Producer, Connection
 from rescuebot.feeds.base import SensorReaderBase

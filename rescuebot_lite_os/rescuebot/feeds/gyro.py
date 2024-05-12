@@ -4,9 +4,7 @@ import logging
 from datetime import datetime
 import logging
 from datetime import datetime
-from adafruit_icm20x import ICM20948, AccelRange, GyroRange
-import board
-import busio
+
 from kombu import (
     Exchange, 
     Queue, 
