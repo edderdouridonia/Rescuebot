@@ -1,64 +1,91 @@
 import streamlit as st
-from kombu import Connection, Exchange, Queue, Consumer
 import pandas as pd
 import matplotlib.pyplot as plt
-from absl import logging
+import numpy as np
+
+# Streamlit app title and sidebar for controls
+st.title("Robot Control and Monitoring Interface")
+st.sidebar.title("Robot Controls")
+
+# Sidebar for movement controls arranged in a diamond pattern
+st.sidebar.header("Movement Controls")
+
+# Top row for the forward button, shifted right
+top_col1, top_col2, top_col3 = st.sidebar.columns([1, 1, 1])
+with top_col2:
+    if st.button("  ↑  ", key="forward"):  # Up arrow for forward
+        pass 
+        # st.sidebar.write("Moving forward")
+
+# Middle row for left, stop, and right buttons
+mid_col1, mid_col2, mid_col3 = st.sidebar.columns(3)
+with mid_col1:
+    if st.button(" ← ", key="left"):  # Left arrow for turn left
+        pass
+        # st.sidebar.write("Turning left")
+with mid_col2:
+    if st.button("■", key="stop"):  # Stop button
+        pass
+        # st.sidebar.write("Emergency Stop")
+with mid_col3:
+    if st.button(" → ", key="right"):  # Right arrow for turn right
+        pass
+        # st.sidebar.write("Turning right")
+
+# Bottom row for the backward button, shifted right
+bottom_col1, bottom_col2, bottom_col3 = st.sidebar.columns([1, 1, 1])
+with bottom_col2:
+    if st.button("  ↓  ", key="backward"):  # Down arrow for backward
+        pass
+        # st.sidebar.write("Moving backward")
 
 
-logging.set_verbosity(logging.DEBUG)
+# Generating mock data for sensors
+def generate_mock_data():
+    time_range = pd.date_range(start="2023-05-10", periods=100, freq='H')
+    data = {
+        "timestamp": time_range,
+        "temperature": np.random.normal(loc=25, scale=3, size=100),
+        "humidity": np.random.uniform(30, 90, size=100),
+        "pressure": np.random.uniform(900, 1100, size=100),
+        "angular_velocity": np.random.normal(loc=0, scale=1, size=100),
+        "uv_index": np.random.uniform(0, 11, size=100),
+        "voc_index": np.random.uniform(0, 500, size=100),
+        "ambient_light": np.random.uniform(100, 10000, size=100)
+    }
+    return pd.DataFrame(data)
 
-# Streamlit app title
-st.title("Temperature Sensor Data Visualization")
+df_sensors = generate_mock_data()
 
-# Configuration for Redis connection
-REDIS_URL = "redis-19550.c268.eu-west-1-2.ec2.cloud.redislabs.com"
-USERNAME = "rescuebot"
-PASSWORD = "gTtXHpg3hYNa6#Y5"
+tab1, tab2 = st.tabs(["Sensor Data", "Live Video Stream"])
 
-TEMPERATURE_SENSOR_CHANNEL = "temperature_sensor"
+with tab1:
+    st.write("Data Preview:")
+    st.write(df_sensors.head())
+    # Plotting sensor data
+    fig, axs = plt.subplots(7, 1, figsize=(10, 20))
+    sensor_names = ["temperature", "humidity", "pressure", "angular_velocity", "uv_index", "voc_index", "ambient_light"]
+    colors = ["red", "blue", "green", "purple", "orange", "brown", "yellow"]
+    for i, sensor in enumerate(sensor_names):
+        axs[i].plot(df_sensors["timestamp"], df_sensors[sensor], color=colors[i])
+        axs[i].set_xlabel("Timestamp")
+        axs[i].set_ylabel(f"{sensor}")
+        axs[i].set_title(f"{sensor.capitalize()} Readings Over Time")
+    plt.tight_layout()
+    st.pyplot(fig)
 
-def fetch_temperature_data():
-    logging.debug("Fetching temperature data ...")
-    with Connection(hostname=REDIS_URL, userid=USERNAME,
-                    password=PASSWORD, port=19550) as conn:
-        # Define the exchange and queue
-        exchange = Exchange("sensor_data", type="direct")
-        queue = Queue(name=TEMPERATURE_SENSOR_CHANNEL, exchange=exchange, 
-                      routing_key=TEMPERATURE_SENSOR_CHANNEL)
-
-        # Temporary list to store the data
-        temp_data = []
-
-        # Callback function to process messages
-        def process_message(body, message):
-            print(f'Received message: {body}')
-            temp_data.append(body)
-            message.ack()
-
-        # Consuming messages
-        with Consumer(conn, queues=queue,
-                      callbacks=[process_message],
-                      no_ack=False):
-            conn.drain_events(timeout=2)  # Adjust timeout as needed
-
-        return temp_data
-
-# Button to fetch data
-if st.button("Fetch Temperature Data"):
-    data = fetch_temperature_data()
-    if data:
-        # Assuming data is a list of dictionaries
-        df = pd.DataFrame(data)
-        st.write("Data Preview:")
-        st.write(df.head())
-
-        # Plotting
-        st.write("Temperature Readings:")
-        fig, ax = plt.subplots()
-        ax.plot(df["timestamp"], df["temperature"], color="red")
-        ax.set_xlabel("Timestamp")
-        ax.set_ylabel("Temperature (°C)")
-        ax.set_title("Temperature Readings Over Time")
-        st.pyplot(fig)
-    else:
-        st.error("No data fetched. Ensure the Redis server is running and sending data to the queue.")
+with tab2:
+    st.header("Live Video Streams")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        video_stream_url1 = st.text_input("Enter video stream URL 1", key="video1")
+        if video_stream_url1:
+            st.video(video_stream_url1)
+    with col2:
+        video_stream_url2 = st.text_input("Enter video stream URL 2", key="video2")
+        if video_stream_url2:
+            st.video(video_stream_url2)
+    with col3:
+        video_stream_url3 = st.text_input("Enter video stream URL 3", key="video3")
+        if video_stream_url3:
+            st.video(video_stream_url3)
