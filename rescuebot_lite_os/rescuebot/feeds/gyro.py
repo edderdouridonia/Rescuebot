@@ -54,5 +54,6 @@ class MotionSensorReader(SensorReaderBase):
             'yaw': yaw,
             'timestamp': datetime.now().isoformat()
         }
+        print(motion_data)
         self.write(motion_data)
         logging.info(f"Motion data written: {motion_data}")
