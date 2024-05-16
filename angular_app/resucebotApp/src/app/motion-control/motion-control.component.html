@@ -1,0 +1,51 @@
+<div class="p-4 border rounded">
+  <h2 class="text-xl font-bold mb-4">Motion Control</h2>
+
+  <div class="flex flex-col items-center">
+    <!-- Robot Illustration -->
+    <div class="relative">
+      <img src="assets/robot.png" alt="Robot" class="robot-image rotate-left">
+      <!-- Horizontal Track Buttons -->
+      <button class="track-button top-track" [class.active]="motorStates[0]" (click)="toggleMotor(0)">Track 1</button>
+      <button class="track-button bottom-track" [class.active]="motorStates[1]" (click)="toggleMotor(1)">Track 2</button>
+      <!-- Limb/Arm Track Buttons -->
+      <button class="track-button top-left-arm" [class.active]="motorStates[2]" (click)="toggleMotor(2)">Arm 1</button>
+      <button class="track-button top-right-arm" [class.active]="motorStates[3]" (click)="toggleMotor(3)">Arm 2</button>
+      <button class="track-button bottom-left-arm" [class.active]="motorStates[4]" (click)="toggleMotor(4)">Arm 3</button>
+      <button class="track-button bottom-right-arm" [class.active]="motorStates[5]" (click)="toggleMotor(5)">Arm 4</button>
+    </div>
+
+    <!-- Select All / Deselect All Buttons -->
+    <div class="flex justify-around mt-4 mb-4">
+      <button class="p-2 bg-blue-500 text-white rounded shadow" (click)="selectAll()">
+        <i class="fas fa-check-square"></i> All
+      </button>
+      <button class="p-2 bg-red-500 text-white rounded shadow" (click)="deselectAll()">
+        <i class="fas fa-times-circle"></i> None
+      </button>
+    </div>
+
+    <!-- Direction Control
+    <div class="flex justify-around mb-4 mt-4">
+      <button class="p-2 bg-blue-500 text-white rounded shadow" [class.bg-green-500]="directionStates.up" (click)="toggleDirection('up')">
+        <i class="fas fa-arrow-up"></i>
+      </button>
+      <button class="p-2 bg-blue-500 text-white rounded shadow" [class.bg-green-500]="directionStates.down" (click)="toggleDirection('down')">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+      <button class="p-2 bg-blue-500 text-white rounded shadow" [class.bg-green-500]="directionStates.left" (click)="toggleDirection('left')">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <button class="p-2 bg-blue-500 text-white rounded shadow" [class.bg-green-500]="directionStates.right" (click)="toggleDirection('right')">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div> -->
+
+    <!-- Power Control -->
+    <div class="flex items-center mt-4">
+      <label class="block mb-2">Power:</label>
+      <input type="range" min="0" max="100" [(ngModel)]="powerLevel" class="mx-4 w-full" />
+      <span>{{ powerLevel }}%</span>
+    </div>
+  </div>
+</div>
