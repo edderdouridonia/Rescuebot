@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EChartsOption } from 'echarts';
+import { TelemetryService } from '../telemetry.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-telemetry',
   templateUrl: './telemetry.component.html',
   styleUrls: ['./telemetry.component.css']
 })
-export class TelemetryComponent implements OnInit {
+export class TelemetryComponent implements OnInit, OnDestroy {
   chartOptions: EChartsOption = {
     title: [
       { text: 'Temperature', top: '3%', left: 'center' },
@@ -21,10 +23,10 @@ export class TelemetryComponent implements OnInit {
       { top: '82%', height: '18%' }
     ],
     xAxis: [
-      { type: 'category', boundaryGap: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], gridIndex: 0 },
-      { type: 'category', boundaryGap: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], gridIndex: 1 },
-      { type: 'category', boundaryGap: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], gridIndex: 2 },
-      { type: 'category', boundaryGap: false, data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], gridIndex: 3 }
+      { type: 'time', gridIndex: 0 },
+      { type: 'time', gridIndex: 1 },
+      { type: 'time', gridIndex: 2 },
+      { type: 'time', gridIndex: 3 }
     ],
     yAxis: [
       { type: 'value', gridIndex: 0 },
@@ -33,39 +35,55 @@ export class TelemetryComponent implements OnInit {
       { type: 'value', gridIndex: 3 }
     ],
     series: [
-      {
-        name: 'Temperature',
-        type: 'line',
-        data: [22, 24, 23, 25, 27, 26, 28],
-        xAxisIndex: 0,
-        yAxisIndex: 0
-      },
-      {
-        name: 'Humidity',
-        type: 'line',
-        data: [55, 60, 58, 62, 65, 64, 63],
-        xAxisIndex: 1,
-        yAxisIndex: 1
-      },
-      {
-        name: 'Luminosity',
-        type: 'line',
-        data: [300, 400, 350, 450, 500, 550, 600],
-        xAxisIndex: 2,
-        yAxisIndex: 2
-      },
-      {
-        name: 'Gas Sensor',
-        type: 'line',
-        data: [0.5, 0.6, 0.55, 0.65, 0.7, 0.75, 0.8],
-        xAxisIndex: 3,
-        yAxisIndex: 3
-      }
+      { name: 'Temperature', type: 'line', data: [], xAxisIndex: 0, yAxisIndex: 0 },
+      { name: 'Humidity', type: 'line', data: [], xAxisIndex: 1, yAxisIndex: 1 },
+      { name: 'Luminosity', type: 'line', data: [], xAxisIndex: 2, yAxisIndex: 2 },
+      { name: 'Gas Sensor', type: 'line', data: [], xAxisIndex: 3, yAxisIndex: 3 }
     ]
   };
 
-  constructor() { }
+  private subscriptions: Subscription[] = [];
+
+  constructor(private telemetryService: TelemetryService) {}
 
   ngOnInit(): void {
+    this.subscriptions.push(
+      this.telemetryService.subscribeToSensor('temperature').subscribe(data => {
+        if (data) {
+          this.updateChartData(0, data);
+        }
+      }),
+      this.telemetryService.subscribeToSensor('humidity').subscribe(data => {
+        if (data) {
+          this.updateChartData(1, data);
+        }
+      }),
+      this.telemetryService.subscribeToSensor('luminosity').subscribe(data => {
+        if (data) {
+          this.updateChartData(2, data);
+        }
+      }),
+      this.telemetryService.subscribeToSensor('gas').subscribe(data => {
+        if (data) {
+          this.updateChartData(3, data);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  private updateChartData(index: number, data: any): void {
+    const series = this.chartOptions.series as EChartsOption['series'];
+    if (Array.isArray(series)) {
+      const newData = series[index].data as any[];
+      newData.push([new Date(), data.value]);
+      this.chartOptions = {
+        ...this.chartOptions,
+        series: series.map((s, i) => i === index ? { ...s, data: newData } : s)
+      };
+    }
   }
 }

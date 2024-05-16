@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-mode-selection',
   templateUrl: './mode-selection.component.html',
   styleUrls: ['./mode-selection.component.css']
 })
-export class ModeSelectionComponent implements OnInit {
+export class ModeSelectionComponent {
+  mode: 'autonomous' | 'manual' = 'manual';
 
-  constructor() { }
-
-  ngOnInit(): void {
+  toggleMode(selectedMode: 'autonomous' | 'manual') {
+    this.mode = selectedMode;
   }
-
 }

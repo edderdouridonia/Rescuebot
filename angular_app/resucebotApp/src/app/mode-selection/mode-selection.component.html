@@ -1,7 +1,23 @@
 <div class="p-4 border rounded">
   <h2 class="text-xl font-bold mb-4">Mode Selection</h2>
   <div class="flex justify-around">
-    <button class="p-2 border rounded bg-blue-500 text-white">Autonomous</button>
-    <button class="p-2 border rounded bg-gray-300">Manual</button>
+    <button
+      class="p-2 border rounded flex items-center"
+      [ngClass]="{'bg-blue-500 text-white': mode === 'autonomous', 'bg-gray-300': mode !== 'autonomous'}"
+      (click)="toggleMode('autonomous')">
+      <span class="material-icons mr-1">
+        {{ mode === 'autonomous' ? 'check_circle' : 'radio_button_unchecked' }}
+      </span>
+      Autonomous
+    </button>
+    <button
+      class="p-2 border rounded flex items-center"
+      [ngClass]="{'bg-blue-500 text-white': mode === 'manual', 'bg-gray-300': mode !== 'manual'}"
+      (click)="toggleMode('manual')">
+      <span class="material-icons mr-1">
+        {{ mode === 'manual' ? 'check_circle' : 'radio_button_unchecked' }}
+      </span>
+      Manual
+    </button>
   </div>
 </div>

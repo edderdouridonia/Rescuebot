@@ -10,6 +10,7 @@ import { BatteryConnectivityComponent } from './battery-connectivity/battery-con
 import { TelemetryComponent } from './telemetry/telemetry.component';
 import { ModeSelectionComponent } from './mode-selection/mode-selection.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { TelemetryService } from './telemetry.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     CommsComponent,
     BatteryConnectivityComponent,
     TelemetryComponent,
-    ModeSelectionComponent
+    ModeSelectionComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
       echarts: () => import('echarts')
     })
   ],
-  providers: [],
+  providers: [TelemetryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

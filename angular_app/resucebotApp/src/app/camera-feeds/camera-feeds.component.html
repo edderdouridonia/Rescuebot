@@ -1,13 +1,19 @@
-<div class="p-4 border rounded">
+<div class="p-4 border rounded flex flex-col items-center">
   <h2 class="text-xl font-bold mb-4">Camera Feeds</h2>
-  <div class="grid grid-cols-2 gap-4">
-    <div class="border p-2">Camera 1</div>
-    <div class="border p-2">Camera 2</div>
-    <div class="border p-2">Camera 3</div>
-    <div class="border p-2">Camera 4</div>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="border p-2 camera-feed">Camera 1</div>
+    <div class="border p-2 camera-feed">Camera 2</div>
+    <div class="border p-2 camera-feed">Camera 3</div>
+    <div class="border p-2 camera-feed">Camera 4</div>
   </div>
-  <div class="flex justify-around mt-4">
-    <button class="p-2 border rounded bg-green-500 text-white">Start Recording</button>
-    <button class="p-2 border rounded bg-red-500 text-white">Stop Recording</button>
+  <div class="flex justify-center mt-4">
+    <button
+      class="p-4 border rounded-full flex items-center justify-center w-20 h-20"
+      [ngClass]="{'bg-green-500 text-white': recording, 'bg-red-500 text-white': !recording}"
+      (click)="toggleRecording()">
+      <span class="material-icons">
+        {{ recording ? 'videocam' : 'videocam_off' }}
+      </span>
+    </button>
   </div>
 </div>

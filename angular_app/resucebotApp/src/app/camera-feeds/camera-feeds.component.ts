@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-camera-feeds',
   templateUrl: './camera-feeds.component.html',
   styleUrls: ['./camera-feeds.component.css']
 })
-export class CameraFeedsComponent implements OnInit {
+export class CameraFeedsComponent {
+  recording: boolean = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  toggleRecording() {
+    this.recording = !this.recording;
   }
-
 }
