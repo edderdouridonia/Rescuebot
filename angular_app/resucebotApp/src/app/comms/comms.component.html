@@ -1,0 +1,29 @@
+<div class="p-4 border rounded">
+  <h2 class="text-xl font-bold mb-4">Communication</h2>
+  <div class="flex justify-around">
+    <div>
+      <label class="mr-2">Mic:</label>
+      <button
+        class="p-2 border rounded flex items-center"
+        [ngClass]="{'bg-green-500 text-white': micOn, 'bg-red-500 text-white': !micOn}"
+        (click)="toggleMic()">
+        <span class="material-icons mr-1">
+          {{ micOn ? 'mic' : 'mic_off' }}
+        </span>
+        {{ micOn ? 'On' : 'Off' }}
+      </button>
+    </div>
+    <div>
+      <label class="mr-2">Speaker:</label>
+      <button
+        class="p-2 border rounded flex items-center"
+        [ngClass]="{'bg-green-500 text-white': speakerOn, 'bg-red-500 text-white': !speakerOn}"
+        (click)="toggleSpeaker()">
+        <span class="material-icons mr-1">
+          {{ speakerOn ? 'volume_up' : 'volume_off' }}
+        </span>
+        {{ speakerOn ? 'On' : 'Off' }}
+      </button>
+    </div>
+  </div>
+</div>
