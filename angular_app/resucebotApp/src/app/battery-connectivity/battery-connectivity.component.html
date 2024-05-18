@@ -1,0 +1,48 @@
+<div class="p-4 border rounded">
+  <h2 class="text-xl font-bold mb-4">Battery & Connectivity</h2>
+  <div class="mb-2 flex items-center">
+    <label class="mr-2">Battery:</label>
+    <div class="flex">
+      <div *ngFor="let bar of getBatteryBars()" [ngClass]="{'bg-green-500': bar, 'bg-gray-300': !bar}" class="w-4 h-8 m-0.5"></div>
+    </div>
+    <span class="ml-2">{{ batteryLevel }}%</span>
+  </div>
+  <div class="flex justify-around">
+    <div>
+      <label class="mr-2">Wireless Charging:</label>
+      <button
+        class="p-2 border rounded flex items-center"
+        [ngClass]="{'bg-green-500 text-white': wirelessCharging, 'bg-red-500 text-white': !wirelessCharging}"
+        (click)="toggleWirelessCharging()">
+        <span class="material-icons mr-1">
+          {{ wirelessCharging ? 'power' : 'power_off' }}
+        </span>
+        {{ wirelessCharging ? 'On' : 'Off' }}
+      </button>
+    </div>
+    <div>
+      <label class="mr-2">Transmitting:</label>
+      <button
+        class="p-2 border rounded flex items-center"
+        [ngClass]="{'bg-green-500 text-white': transmitting, 'bg-red-500 text-white': !transmitting}"
+        (click)="toggleTransmitting()">
+        <span class="material-icons mr-1">
+          {{ transmitting ? 'wifi' : 'wifi_off' }}
+        </span>
+        {{ transmitting ? 'On' : 'Off' }}
+      </button>
+    </div>
+    <div>
+      <label class="mr-2">Receiving:</label>
+      <button
+        class="p-2 border rounded flex items-center"
+        [ngClass]="{'bg-green-500 text-white': receiving, 'bg-red-500 text-white': !receiving}"
+        (click)="toggleReceiving()">
+        <span class="material-icons mr-1">
+          {{ receiving ? 'bluetooth' : 'bluetooth_disabled' }}
+        </span>
+        {{ receiving ? 'On' : 'Off' }}
+      </button>
+    </div>
+  </div>
+</div>

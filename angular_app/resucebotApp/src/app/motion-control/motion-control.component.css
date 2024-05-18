@@ -1,0 +1,77 @@
+.robot-image {
+  width: 300px;
+  height: auto;
+  transform: rotate(-90deg);  /* Rotate the image 90 degrees to the left */
+}
+
+.track-button {
+  position: absolute;
+  background-color: #2563eb; /* Tailwind CSS color bg-blue-500 */
+  color: white;
+  border: none;
+  border-radius: 0.375rem; /* Tailwind CSS rounded-md */
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Tailwind CSS shadow */
+  font-size: 0.75rem; /* Tailwind CSS text-xs */
+  text-align: center;
+}
+
+.track-button.active {
+  background-color: #10b981; /* Tailwind CSS color bg-green-500 */
+}
+
+/* Positioning the buttons over the horizontal tracks */
+.top-track {
+  top: 40%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 35px;
+}
+
+.bottom-track {
+  top: 40%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 35px;
+}
+
+/* Positioning the buttons over the limbs/arms */
+.top-left-arm {
+  top: 10%;
+  left: 23%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 35px;
+}
+
+.top-right-arm {
+  top: 10%;
+  left: 85%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 35px;
+}
+
+.bottom-left-arm {
+  bottom: 20%;
+  left: 23%;
+  transform: translate(-50%, 50%);
+  width: 90px;
+  height: 35px;
+}
+
+.bottom-right-arm {
+  bottom: 20%;
+  left: 85%;
+  transform: translate(-50%, 50%);
+  width: 90px;
+  height: 35px;
+}
+
+button.active {
+  background-color: #10b981; /* Tailwind CSS color bg-green-500 */
+}
