@@ -7,10 +7,11 @@ vine
 wheel
 pandas
 opencv-python
-adafruit-circuitpython-icm20x #gyroscope
-adafruit-circuitpython-bme280 #environment sensors (temperature,humidity, pressure)
-adafruit-circuitpython-sgp40 # air sensor
-adafruit-circuitpython-ltr390 # uv
-adafruit-circuitpython-ltr390 # infrafed 
+smbus2
+#adafruit-circuitpython-icm20x #gyroscope
+#adafruit-circuitpython-bme280 #environment sensors (temperature,humidity, pressure)
+#adafruit-circuitpython-sgp40 # air sensor
+#adafruit-circuitpython-ltr390 # uv
+#adafruit-circuitpython-ltr390 # infrafed 
 #micropython-machine # micropython machine
 #RPi.GPIO

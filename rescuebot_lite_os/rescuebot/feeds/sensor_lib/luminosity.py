@@ -144,7 +144,7 @@ class TSL2591:
 		# lux1 = (full - (LUX_COEFB * ir)) / self.Cpl
 		# lux2 = ((LUX_COEFC * full) - (LUX_COEFD * ir)) / self.Cpl
 		# return max(int(lux1), int(lux2))
-		lux = ((full-ir) * (1.00 - (ir/full))) / self.Cpl
+		lux = ((full-ir) * (1.00 - (ir/full))) / min(1,self.Cpl)
 		# lux = (full-ir)/ self.Cpl
 		return lux
 

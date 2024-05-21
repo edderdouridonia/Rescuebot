@@ -2,9 +2,6 @@
 #Base on  
 import logging
 from datetime import datetime
-import board
-import busio
-
 
 from kombu import (
     Exchange, 
@@ -42,6 +39,7 @@ class UVSensorReader(SensorReaderBase):
             'uv_index': uv_index,
             'timestamp': datetime.now().isoformat()
         }
+        print(uv_data)
         self.write(uv_data)
         return uv_data
         logging.info(f"UV data written: {uv_data}")
@@ -61,16 +59,12 @@ class LuminositySensorReader(SensorReaderBase):
         Reads lux data from the TSL25911FN and writes it with a timestamp.
         """
         lux = self.sensor.Lux()
-        full_spectrum = self.sensor.full_spectrum
-        infrared = self.sensor.infrared
-        visible = self.sensor.visible
+     
         lux_data = {
             'lux': lux,
-            'full_spectrum': full_spectrum,
-            'infrared': infrared,
-            'visible': visible,
             'timestamp': datetime.now().isoformat()
         }
+        print(lux_data)
         self.write(lux_data)
         return lux_data
         logging.info(f"Lux data written: {lux_data}")

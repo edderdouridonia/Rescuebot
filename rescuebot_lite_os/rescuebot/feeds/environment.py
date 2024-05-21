@@ -1,12 +1,9 @@
 
 #Base on  
-import logging
+from absl import logging
 from datetime import datetime
 import logging
 from datetime import datetime
-from  import basic as adafruit_bme280
-import board
-import busio
 from kombu import (
     Exchange, 
     Queue, 
@@ -14,12 +11,11 @@ from kombu import (
     Connection
 )
 from rescuebot.feeds.base import SensorReaderBase
-from rescuebot.rescuebot_lite_os.rescuebot.feeds.sensor_lib.environment import BME280
+from rescuebot.feeds.sensor_lib.environment import BME280
 
 SENSORS_CHANNEL = "sensors"
 RABBIT_MQ_SERVER_URI = "amqp://guest:guest@localhost:5672//"
 TEMP_SENSOR_PIN = 7 
-
 
 class EnvironmentSensorReader(SensorReaderBase):
     """
@@ -40,11 +36,12 @@ class EnvironmentSensorReader(SensorReaderBase):
         raw_data = self.sensor.readData()
 
         env_data = {
-            'temperature': raw_data.data[1],
-            'humidity': raw_data.data[2],
-            'pressure': raw_data.data[0] ,
+            'temperature': raw_data[1],
+            'humidity': raw_data[2],
+            'pressure': raw_data[0] ,
             'timestamp': datetime.now().isoformat()
         }
+        print(f"Environmental data written: {env_data}")
+        logging.debug(f"Environmental data written: {env_data}")
         self.write(env_data)
-        logging.info(f"Environmental data written: {env_data}")
-    
+        

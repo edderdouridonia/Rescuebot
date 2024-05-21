@@ -5,9 +5,9 @@ from rescuebot.feeds.light import (
 )
 from rescuebot.feeds.gyro import MotionSensorReader
 from rescuebot.feeds.gas import AirQualitySensorReader
-from rescuebot.feeds.video import VideoFeedReader
-from rescuebot.feeds.proximity import ProximitySensorReader
-from rescuebot.feeds.ultrasonic import UltrasonicSensorReader
+#from rescuebot.feeds.video import VideoFeedReader
+#from rescuebot.feeds.proximity import ProximitySensorReader
+#from rescuebot.feeds.ultrasonic import UltrasonicSensorReader
 from multiprocessing import Process
 from datetime import datetime
 import numpy as np
@@ -154,7 +154,6 @@ def init_ultrasonic_sensor(sample_rate_seconds=1):
     
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
     logging.debug('::: System startup - Pausing for 5 seconds to connect to RabbitMQ :::')
     time.sleep(5)
 
@@ -163,10 +162,10 @@ if __name__ == '__main__':
         'environment': init_environment_sensor_reader,
         'luminosity': init_luminosity_sensor_reader,
         'uv': init_uv_sensor_reader,
-        'airquality': init_airquality_sensor_reader,
-        'gyro': init_gyro_sensor_reader,
-        'air': init_air_sensor_reader,
-        'video': init_video_feed_reader,
+         'airquality': init_airquality_sensor_reader,
+        #' 'gyro': init_gyro_sensor_reader,
+         #''air': init_air_sensor_reader,
+        #'video': init_video_feed_reader,
         # 'proximity': init_proximity_sensor_reader,
         # 'ultrasonic': init_ultrasonic_sensor_reader
     }
