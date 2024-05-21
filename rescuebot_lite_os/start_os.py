@@ -30,7 +30,7 @@ def init_environment_sensor_reader(sample_rate_seconds=1):
    
     while True:
         # Get the current date and time
-        with open('environment.json', 'w') as env_json:
+        with open('environment.jsonl', 'w') as env_json:
             sensor_data = env_sensor.write_environment_data()
             env_json.writelines([json.dumps(sensor_data)])
             time.sleep(sample_rate_seconds)
@@ -45,7 +45,7 @@ def init_luminosity_sensor_reader(sample_rate_seconds=1):
     logging.debug('reading environment :)')
     while True:
         # Get the current date and time
-        with open('luminosity.json', 'w') as json_file:
+        with open('luminosity.jsonl', 'w') as json_file:
             sensor_data = light_sensor.write_lux_data()
             json_file.writelines([json.dumps(sensor_data)])
             time.sleep(sample_rate_seconds)
@@ -60,7 +60,7 @@ def init_uv_sensor_reader(sample_rate_seconds=1):
     logging.debug('UV reading environment :)')
     while True:
         # Get the current date and time
-        with open('uv_sensor.json', 'w') as json_file:
+        with open('uv_sensor.jsonl', 'w') as json_file:
             sensor_data = light_sensor.write_lux_data()
             json_file.writelines([json.dumps(sensor_data)])
             time.sleep(sample_rate_seconds)
@@ -74,7 +74,7 @@ def init_airquality_sensor_reader(sample_rate_seconds=1):
 
     logging.debug('UV reading environment :)')
     while True:
-        with open('uv_sensor.json', 'w') as json_file:
+        with open('uv_sensor.jsonl', 'w') as json_file:
             # Get the current date and time
             sensor_data = light_sensor.write_lux_data()
             json_file.writelines([json.dumps(sensor_data)])
@@ -88,7 +88,7 @@ def init_gyro_sensor_reader(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        with open('gyro.json', 'w') as json_file:
+        with open('gyro.jsonl', 'w') as json_file:
             # Get the current date and time
             sensor_data = motion_sensor.write_motion_data()
             json_file.writelines([json.dumps(sensor_data)])
@@ -102,7 +102,7 @@ def init_air_sensor_reader(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        with open('air.json', 'w') as json_file:
+        with open('air.jsonl', 'w') as json_file:
             # Get the current date and time
             sensor_data = air_sensor.write_voc_data()
             json_file.writelines([json.dumps(sensor_data)])

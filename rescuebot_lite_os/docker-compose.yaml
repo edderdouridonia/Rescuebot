@@ -36,16 +36,16 @@ services:
       - rabbitmq
       # - postgres
 
-  # angular-app:
-  #   build:
-  #     context: ./angular_app/rescuebotApp
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "4200:4200"
-  #   environment:
-  #     RABBIT_MQ_SERVER_URI: "amqp://guest:guest@rabbitmq:5672"
-  #   depends_on:
-  #     - rabbitmq
+  angular-app:
+    build:
+      context: angular_app/resucebotApp
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    environment:
+      RABBIT_MQ_SERVER_URI: "amqp://guest:guest@rabbitmq:5672"
+    depends_on:
+      - rabbitmq
 
 volumes:
   rabbitmq_data:

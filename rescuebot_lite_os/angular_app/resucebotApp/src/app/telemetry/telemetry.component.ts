@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { TelemetryService } from '../telemetry.service';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-telemetry',
@@ -9,6 +9,17 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./telemetry.component.css']
 })
 export class TelemetryComponent implements OnInit, OnDestroy {
+
+  environmentData: BehaviorSubject<any>;
+  luminosityData: BehaviorSubject<any>;
+  uvData: BehaviorSubject<any>;
+  airQualityData: BehaviorSubject<any>;
+  gyroData: BehaviorSubject<any>;
+  airData: BehaviorSubject<any>;
+  videoData: BehaviorSubject<any>;
+  proximityData: BehaviorSubject<any>;
+  ultrasonicData: BehaviorSubject<any>;
+
   chartOptions: EChartsOption = {
     title: [
       { text: 'Temperature', top: '3%', left: 'center' },
@@ -47,23 +58,33 @@ export class TelemetryComponent implements OnInit, OnDestroy {
   constructor(private telemetryService: TelemetryService) {}
 
   ngOnInit(): void {
+    this.environmentData = this.telemetryService.subscribeToSensor('environment');
+    this.luminosityData = this.telemetryService.subscribeToSensor('luminosity');
+    this.uvData = this.telemetryService.subscribeToSensor('uv');
+    this.airQualityData = this.telemetryService.subscribeToSensor('airquality');
+    this.gyroData = this.telemetryService.subscribeToSensor('gyro');
+    this.airData = this.telemetryService.subscribeToSensor('air');
+    // this.videoData = this.telemetryService.subscribeToSensor('video');
+    // this.proximityData = this.telemetryService.subscribeToSensor('proximity');
+    // this.ultrasonicData = this.telemetryService.subscribeToSensor('ultrasonic');
+
     this.subscriptions.push(
-      this.telemetryService.subscribeToSensor('temperature').subscribe(data => {
+      this.environmentData.subscribe(data => {
         if (data) {
           this.updateChartData(0, data);
         }
       }),
-      this.telemetryService.subscribeToSensor('humidity').subscribe(data => {
+      this.airData.subscribe(data => {
         if (data) {
           this.updateChartData(1, data);
         }
       }),
-      this.telemetryService.subscribeToSensor('luminosity').subscribe(data => {
+      this.luminosityData.subscribe(data => {
         if (data) {
           this.updateChartData(2, data);
         }
       }),
-      this.telemetryService.subscribeToSensor('gas').subscribe(data => {
+      this.airQualityData.subscribe(data => {
         if (data) {
           this.updateChartData(3, data);
         }

@@ -26,6 +26,9 @@ export class TelemetryService {
     });
 
     this.client.activate();
+    this.client.onConnect = () => {
+      this.subscribeToAllSensors();
+    };
   }
 
   subscribeToSensor(sensor: string): BehaviorSubject<any> {
@@ -38,5 +41,18 @@ export class TelemetryService {
       };
     }
     return this.sensors[sensor];
+  }
+
+  // Subscribing to all sensors
+  subscribeToAllSensors() {
+    this.subscribeToSensor('environment');
+    this.subscribeToSensor('luminosity');
+    this.subscribeToSensor('uv');
+    this.subscribeToSensor('airquality');
+    this.subscribeToSensor('gyro');
+    this.subscribeToSensor('air');
+    // this.subscribeToSensor('video');
+    // this.subscribeToSensor('proximity');
+    // this.subscribeToSensor('ultrasonic');
   }
 }
