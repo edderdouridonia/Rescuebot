@@ -10,15 +10,15 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class TelemetryComponent implements OnInit, OnDestroy {
 
-  environmentData: BehaviorSubject<any>;
-  luminosityData: BehaviorSubject<any>;
-  uvData: BehaviorSubject<any>;
-  airQualityData: BehaviorSubject<any>;
-  gyroData: BehaviorSubject<any>;
-  airData: BehaviorSubject<any>;
-  videoData: BehaviorSubject<any>;
-  proximityData: BehaviorSubject<any>;
-  ultrasonicData: BehaviorSubject<any>;
+  environmentData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  luminosityData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  uvData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  airQualityData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  gyroData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  airData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  videoData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  proximityData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  ultrasonicData: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
   chartOptions: EChartsOption = {
     title: [
