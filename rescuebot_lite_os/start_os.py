@@ -10,6 +10,8 @@ from rescuebot.feeds.gas import AirQualitySensorReader
 #from rescuebot.feeds.ultrasonic import UltrasonicSensorReader
 from multiprocessing import Process
 from datetime import datetime
+import numpy as np
+import json
 import time
 from absl import logging
 
@@ -25,10 +27,13 @@ def init_environment_sensor_reader(sample_rate_seconds=1):
                                            sensor_name='environment_sensor')
 
     logging.debug('reading environment :)')
+   
     while True:
         # Get the current date and time
-        env_sensor.write_environment_data()
-        time.sleep(sample_rate_seconds)
+        with open('environment.jsonl', 'w') as env_json:
+            sensor_data = env_sensor.write_environment_data()
+            env_json.writelines([json.dumps(sensor_data)])
+            time.sleep(sample_rate_seconds)
         
         
 def init_luminosity_sensor_reader(sample_rate_seconds=1):
@@ -40,9 +45,11 @@ def init_luminosity_sensor_reader(sample_rate_seconds=1):
     logging.debug('reading environment :)')
     while True:
         # Get the current date and time
-        data = light_sensor.write_lux_data()
-        time.sleep(sample_rate_seconds)
-        
+        with open('luminosity.jsonl', 'w') as json_file:
+            sensor_data = light_sensor.write_lux_data()
+            json_file.writelines([json.dumps(sensor_data)])
+            time.sleep(sample_rate_seconds)
+            
 
 def init_uv_sensor_reader(sample_rate_seconds=1):
     logging.debug('initialising uv sensors...')
@@ -53,8 +60,10 @@ def init_uv_sensor_reader(sample_rate_seconds=1):
     logging.debug('UV reading environment :)')
     while True:
         # Get the current date and time
-        light_sensor.write_light_data()
-        time.sleep(sample_rate_seconds)
+        with open('uv_sensor.jsonl', 'w') as json_file:
+            sensor_data = light_sensor.write_lux_data()
+            json_file.writelines([json.dumps(sensor_data)])
+            time.sleep(sample_rate_seconds)
         
 
 def init_airquality_sensor_reader(sample_rate_seconds=1):
@@ -65,9 +74,11 @@ def init_airquality_sensor_reader(sample_rate_seconds=1):
 
     logging.debug('UV reading environment :)')
     while True:
-        # Get the current date and time
-        light_sensor.write_lux_data()
-        time.sleep(sample_rate_seconds)
+        with open('uv_sensor.jsonl', 'w') as json_file:
+            # Get the current date and time
+            sensor_data = light_sensor.write_lux_data()
+            json_file.writelines([json.dumps(sensor_data)])
+            time.sleep(sample_rate_seconds)
           
 def init_gyro_sensor_reader(sample_rate_seconds=1):
     logging.debug('initialising gyro sensors...')
@@ -77,9 +88,11 @@ def init_gyro_sensor_reader(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        # Get the current date and time
-        motion_sensor.write_motion_data()
-        time.sleep(sample_rate_seconds)
+        with open('gyro.jsonl', 'w') as json_file:
+            # Get the current date and time
+            sensor_data = motion_sensor.write_motion_data()
+            json_file.writelines([json.dumps(sensor_data)])
+            time.sleep(sample_rate_seconds)
         
 def init_air_sensor_reader(sample_rate_seconds=1):
     logging.debug('initialising air sensors...')
@@ -89,9 +102,11 @@ def init_air_sensor_reader(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        # Get the current date and time
-        air_sensor.write_voc_data()
-        time.sleep(sample_rate_seconds)
+        with open('air.jsonl', 'w') as json_file:
+            # Get the current date and time
+            sensor_data = air_sensor.write_voc_data()
+            json_file.writelines([json.dumps(sensor_data)])
+            time.sleep(sample_rate_seconds)
         
 
 def init_video_feed_reader(sample_rate_seconds=1):
@@ -102,8 +117,10 @@ def init_video_feed_reader(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        # Get the current date and time
-        air_sensor.write_frame()
+        with open('video.jsonl', 'w') as json_file:
+            # Get the current date and time
+            sensor_data = air_sensor.write_frame()
+            json_file.writelines([json.dumps(sensor_data)])
 
 
 
@@ -115,9 +132,11 @@ def init_proximity_sensor(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        # Get the current date and time
-        proximity_sensor.write_proximity_data()
-        
+        with open('proximity.jsonl', 'w') as json_file:
+            # Get the current date and time
+            sensor_data = proximity_sensor.write_proximity_data()
+            json_file.writelines([json.dumps(sensor_data)])
+            
         
 def init_ultrasonic_sensor(sample_rate_seconds=1):
     logging.debug('initialising ultrasound sensors...')
@@ -127,9 +146,11 @@ def init_ultrasonic_sensor(sample_rate_seconds=1):
 
     logging.debug('reading environment :)')
     while True:
-        # Get the current date and time
-        ultrasonic_sensor.write_distance()
-    
+        with open('ultrasonic.jsonl', 'w') as json_file:
+            # Get the current date and time
+            sensor_data = ultrasonic_sensor.write_distance()
+            json_file.writelines([json.dumps(sensor_data)])
+
     
 
 if __name__ == '__main__':

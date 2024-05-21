@@ -56,6 +56,7 @@ class UltrasonicSensorReader(SensorReaderBase):
         }
         self.write(data)
         logging.info(f"Distance data written: {data}")
+        return data
 
     def cleanup(self):
         """

@@ -56,4 +56,5 @@ class MotionSensorReader(SensorReaderBase):
         }
         print(motion_data)
         self.write(motion_data)
+        return motion_data
         logging.info(f"Motion data written: {motion_data}")

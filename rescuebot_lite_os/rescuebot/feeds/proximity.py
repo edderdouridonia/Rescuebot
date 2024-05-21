@@ -30,3 +30,5 @@ class ProximitySensorReader(SensorReaderBase):
             data["voltage_converted"] = f"{voltage:.2f} V"
             self.write(data)
             
+        return data
+            

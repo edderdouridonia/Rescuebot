@@ -5,6 +5,7 @@ numpy
 setuptools
 vine
 wheel
+pandas
 opencv-python
 smbus2
 #adafruit-circuitpython-icm20x #gyroscope
