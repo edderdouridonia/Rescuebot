@@ -5,6 +5,7 @@ numpy
 setuptools
 vine
 wheel
+pandas
 opencv-python
 adafruit-circuitpython-icm20x #gyroscope
 adafruit-circuitpython-bme280 #environment sensors (temperature,humidity, pressure)

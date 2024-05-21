@@ -43,6 +43,7 @@ class UVSensorReader(SensorReaderBase):
             'timestamp': datetime.now().isoformat()
         }
         self.write(uv_data)
+        return uv_data
         logging.info(f"UV data written: {uv_data}")
         
         
@@ -71,5 +72,6 @@ class LuminositySensorReader(SensorReaderBase):
             'timestamp': datetime.now().isoformat()
         }
         self.write(lux_data)
+        return lux_data
         logging.info(f"Lux data written: {lux_data}")
         

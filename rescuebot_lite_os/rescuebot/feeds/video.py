@@ -45,6 +45,7 @@ class VideoFeedReader(SensorReaderBase):
 
         self.write(message)
         logging.info("Frame published.")
+        return message
 
     def release(self):
         """

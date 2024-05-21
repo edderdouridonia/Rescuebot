@@ -7,20 +7,12 @@ import { Component } from '@angular/core';
 })
 export class MotionControlComponent {
   motorStates: boolean[] = [false, false, false, false, false, false];
-  directionStates = {
-    up: false,
-    down: false,
-    left: false,
-    right: false
-  };
   powerLevel: number = 50;
+  speedLevel: number = 50; // New state for second speed control
+  joystickDirection: string = ''; // New state for joystick direction
 
   toggleMotor(motorIndex: number) {
     this.motorStates[motorIndex] = !this.motorStates[motorIndex];
-  }
-
-  toggleDirection(direction: string) {
-    // this.directionStates[direction] = !this.directionStates[direction];
   }
 
   selectAll() {
@@ -29,5 +21,9 @@ export class MotionControlComponent {
 
   deselectAll() {
     this.motorStates = this.motorStates.map(() => false);
+  }
+
+  setJoystickDirection(direction: string) {
+    this.joystickDirection = direction;
   }
 }

@@ -34,7 +34,9 @@ class AirQualitySensorReader(SensorReaderBase):
             'gas_spg': gas_spg_reading,
             'timestamp': datetime.now().isoformat()
         }
+        
         self.write(voc_data)
+        return voc_data
         logging.info(f"VOC data written: {voc_data}")
         
         
