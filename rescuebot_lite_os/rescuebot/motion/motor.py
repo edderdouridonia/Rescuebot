@@ -1,4 +1,8 @@
+import sys
 import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+
 from kombu import (
     Connection, 
     Exchange, 
@@ -59,25 +63,3 @@ class ArmMotionCommand(MotorMotionCommand):
         
     def handle(self, body, message):
         """
-        Override the handle method to process movement commands.
-        """
-        logging.debug(f'Received movement command: {self.pretty(body)}')
-        print(f'Received movement command: {self.pretty(body)}')
-        
-        if body["command"] == "left_arm_up":
-            self.left_motor.set_speed(100)
-        elif body["command"] == "left_arm_down":
-            self.left_motor.set_speed(-100)
-        elif body["command"] == "right_arm_up":
-            self.right_motor.set_speed(100)
-        elif body["command"] == "right_arm_down":
-            self.right_motor.set_speed(-100)
-        elif body["command"] == "stop":
-            self.left_motor.set_speed(0)
-            self.right_motor.set_speed(0)
-        
-        message.ack()
-
-# Example usage
-track_command = TrackMotionCommand(sensor_channel='track_channel', motor_pin=2)
-arm_command = ArmMotionCommand(sensor_channel='arm_channel', left_motor_pin=3, right_motor_pin=1)
