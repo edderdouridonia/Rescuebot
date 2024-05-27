@@ -7,23 +7,25 @@ print("Initialized Motoron on I2C bus 2")
 
 class MotorMotionCommand:
     def __init__(self, motor_number):
-        self.motor = MotoronBase(motoron, motor_number)
+        self.motor = MotoronBase()
+        self.motor_number = motor_number
         print(f"MotorMotionCommand initialized for motor pin {motor_number}")
 
     def set_speed(self, speed):
-        self.motor.set_speed(speed)
-        print(f"Motor {self.motor.motor_number} speed set to {speed}")
+        self.motor.set_speed(self.motor_number, speed)
+        print(f"Motor {self.motor_number} speed set to {speed}")
 
     def set_direction(self, direction):
+        speed = self.motor.get_speed(self.motor_number)
         if direction == "forward":
-            self.set_speed(abs(self.motor.get_speed()))
+            self.set_speed(abs(speed))
         elif direction == "backward":
-            self.set_speed(-abs(self.motor.get_speed()))
-        print(f"Motor {self.motor.motor_number} direction set to {direction}")
+            self.set_speed(-abs(speed))
+        print(f"Motor {self.motor_number} direction set to {direction}")
 
     def stop(self):
         self.set_speed(0)
-        print(f"Motor {self.motor.motor_number} stopped")
+        print(f"Motor {self.motor_number} stopped")
 
 class TrackMotionCommand(MotorMotionCommand):
     def __init__(self, motor_number):
